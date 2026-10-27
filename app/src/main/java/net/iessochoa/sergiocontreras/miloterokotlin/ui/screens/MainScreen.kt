@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,17 +14,17 @@ import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.BannerPremio
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponComprobar
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponGanador
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.FilaBotones
+import kotlin.math.pow
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(4.dp),
+        modifier = modifier.padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("TITULO")
         Text("Cupon Ganador: ")
         CuponGanador(
             numero = "12345",
@@ -60,6 +59,36 @@ fun MainScreen(
 
     }
 }
+
+fun calculaPremio(
+    CuponJugadoNumero: Int,
+    CuponJugadoSerie: Int,
+    CuponPremiadoNumero: Int,
+    CuponPremiadoSerie: Int
+): Int {
+
+    // Ultimo digito
+    val ultimoDigitoJugado = lastDigits(CuponJugadoNumero, 1)
+    val ultimoDigitoPremiado = lastDigits(CuponPremiadoNumero, 1)
+
+    // Ultimo dos digitos
+    val ultimosDosDigitosJugados = lastDigits(CuponJugadoNumero, 2)
+    val ultimosDosDigitosPremiados = lastDigits(CuponPremiadoNumero, 2)
+
+    // Ultimo tres digitos
+    val ultimosTresDigitosJugados = lastDigits(CuponJugadoNumero, 3)
+    val ultimosTresDigitosPremiados = lastDigits(CuponPremiadoNumero, 3)
+
+
+
+    return 0
+}
+
+
+fun lastDigits(number: Int, n: Int): Int {
+    return number % 10.0.pow(n).toInt()
+}
+
 
 
 
