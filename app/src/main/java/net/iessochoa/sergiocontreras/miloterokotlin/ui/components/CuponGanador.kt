@@ -34,7 +34,7 @@ fun CuponGanador(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Text("Serie: ${serie.padStart(3, '0')}")
+            Text("Serie: ${serie.padStart(2, '0')}")
         }
     }
 

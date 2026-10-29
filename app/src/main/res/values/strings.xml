@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Mi Lotero Kotlin</string>
+    <string name="mensaje_premio">¡Felicidades! Has ganado %1$d €. ¡Muchas gracias por jugar!</string>
 </resources>
