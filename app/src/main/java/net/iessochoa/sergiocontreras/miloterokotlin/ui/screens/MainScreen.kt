@@ -141,6 +141,14 @@ fun calcularPremio(
     }
 }
 
+fun formatNumero(numero: String): String {
+    return numero.padStart(5, '0')
+}
+
+fun formatSerie(serie: String): String {
+    return serie.padStart(2, '0')
+}
+
 
 
 
