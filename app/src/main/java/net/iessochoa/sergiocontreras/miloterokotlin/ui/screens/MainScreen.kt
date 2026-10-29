@@ -41,12 +41,7 @@ fun MainScreen(
     val (numeroJugado, onNumeroJugadoChange) = remember { mutableStateOf("") }
     val (serieJugada, onSerieJugadaChange) = remember { mutableStateOf("") }
 
-    val premio = calcularPremio(
-        numeroJugado = numeroJugado,
-        serieJugada = serieJugada,
-        numeroGanador = numeroGanador,
-        serieGanador = serieGanador
-    )
+    var premio = 0
 
     Column(
         modifier = modifier.padding(8.dp),
@@ -95,9 +90,16 @@ fun MainScreen(
         FilaBotones(
             onComprobarClick = {
                 premioRevelado = true
+                premio = calcularPremio(
+                    numeroJugado = numeroJugado,
+                    serieJugada = serieJugada,
+                    numeroGanador = numeroGanador,
+                    serieGanador = serieGanador
+                )
             },
             onLimpiarClick = {
                 premioRevelado = false
+                premio = 0
             }
         )
 
