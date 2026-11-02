@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -16,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import net.iessochoa.sergiocontreras.miloterokotlin.R
 import net.iessochoa.sergiocontreras.miloterokotlin.data.SorteoRepository
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.BannerPremio
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponComprobar
@@ -24,7 +25,6 @@ import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponGanador
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.FilaBotones
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.Typography
-import kotlin.math.pow
 
 @Composable
 fun MainScreen(
@@ -41,7 +41,7 @@ fun MainScreen(
     val (numeroJugado, onNumeroJugadoChange) = remember { mutableStateOf("") }
     val (serieJugada, onSerieJugadaChange) = remember { mutableStateOf("") }
 
-    var premio = 0
+    var premio by remember { mutableIntStateOf(0) }
 
     Column(
         modifier = modifier.padding(8.dp),
@@ -63,12 +63,7 @@ fun MainScreen(
                     mostrar = premioRevelado
                 )
 
-                BannerPremio(
-                    imageRes = R.drawable.premio_dinero,
-                    premio = premio,
-                    //mensajePremioRes = R.string.mensaje_premio
-
-                )
+                BannerPremio(premio = premio)
 
             }
             false -> {
@@ -84,15 +79,16 @@ fun MainScreen(
             numero = numeroJugado,
             serie = serieJugada,
             onNumeroChange = onNumeroJugadoChange,
-            onSerieChange = onSerieJugadaChange
+            onSerieChange = onSerieJugadaChange,
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
         FilaBotones(
             onComprobarClick = {
                 premioRevelado = true
                 premio = calcularPremio(
-                    numeroJugado = numeroJugado,
-                    serieJugada = serieJugada,
+                    numeroJugado = formatNumero(numeroJugado),
+                    serieJugada = formatSerie(serieJugada),
                     numeroGanador = numeroGanador,
                     serieGanador = serieGanador
                 )
@@ -100,7 +96,10 @@ fun MainScreen(
             onLimpiarClick = {
                 premioRevelado = false
                 premio = 0
-            }
+                onNumeroJugadoChange("")
+                onSerieJugadaChange("")
+            },
+            comprobarHabilitado = numeroJugado.isNotEmpty() && serieJugada.isNotEmpty()
         )
 
         /*

@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 fun FilaBotones(
     onComprobarClick: () -> Unit,
     onLimpiarClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    comprobarHabilitado: Boolean = true
 ) {
     Row(
         modifier = modifier,
@@ -25,7 +26,8 @@ fun FilaBotones(
     {
         //Comprobar cupon
         Button(
-            onClick = onComprobarClick
+            onClick = onComprobarClick,
+            enabled = comprobarHabilitado
         ) {
             Text("Comprobar Cupon")
         }

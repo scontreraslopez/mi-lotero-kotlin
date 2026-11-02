@@ -8,5 +8,5 @@ data class Cupon(
         get() = numero.toString().padStart(5, '0')
 
     val serieFormateada: String
-        get() = serie.toString().padStart(3, '0')
+        get() = serie.toString().padStart(2, '0')
 }
