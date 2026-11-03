@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,73 +17,61 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import net.iessochoa.sergiocontreras.miloterokotlin.R
 import net.iessochoa.sergiocontreras.miloterokotlin.data.SorteoRepository
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.BannerPremio
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponComprobar
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponGanador
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.FilaBotones
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.AlturaHuecoPremio
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioMedio
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioPequeno
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.Typography
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier
 ) {
-    val repository = SorteoRepository
-
-    val cuponGanador = repository.cuponPremiado
-
+    val cuponGanador = SorteoRepository.cuponPremiado
     val numeroGanador = cuponGanador.numeroFormateado
     val serieGanador = cuponGanador.serieFormateada
 
     var premioRevelado by remember { mutableStateOf(false) }
-    val (numeroJugado, onNumeroJugadoChange) = remember { mutableStateOf("") }
-    val (serieJugada, onSerieJugadaChange) = remember { mutableStateOf("") }
-
+    var numeroJugado by remember { mutableStateOf("") }
+    var serieJugada by remember { mutableStateOf("") }
     var premio by remember { mutableIntStateOf(0) }
 
     Column(
-        modifier = modifier.padding(8.dp),
-        verticalArrangement = Arrangement.Center,
+        modifier = modifier.padding(EspacioPequeno),
+        verticalArrangement = Arrangement.spacedBy(EspacioMedio, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Cupon Ganador",
-            style = Typography.headlineLarge
+            text = stringResource(R.string.titulo_cupon_ganador),
+            style = MaterialTheme.typography.headlineLarge
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        when(premioRevelado) {
-            true -> {
-                CuponGanador(
-                    numero = numeroGanador,
-                    serie = serieGanador,
-                    mostrar = premioRevelado
-                )
-
-                BannerPremio(premio = premio)
-
-            }
-            false -> {
-                Text("Pulse para comprobar su premio")
-                Spacer(modifier = Modifier.height(80.dp))
-
-            }
+        if (premioRevelado) {
+            CuponGanador(
+                numero = numeroGanador,
+                serie = serieGanador
+            )
+            BannerPremio(premio = premio)
+        } else {
+            Text(stringResource(R.string.instruccion_comprobar))
+            Spacer(modifier = Modifier.height(AlturaHuecoPremio))
         }
-        Spacer(modifier = Modifier.height(16.dp))
-
 
         CuponComprobar(
             numero = numeroJugado,
             serie = serieJugada,
-            onNumeroChange = onNumeroJugadoChange,
-            onSerieChange = onSerieJugadaChange,
+            onNumeroChange = { numeroJugado = it },
+            onSerieChange = { serieJugada = it },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+
         FilaBotones(
             onComprobarClick = {
                 premioRevelado = true
@@ -96,69 +85,39 @@ fun MainScreen(
             onLimpiarClick = {
                 premioRevelado = false
                 premio = 0
-                onNumeroJugadoChange("")
-                onSerieJugadaChange("")
+                numeroJugado = ""
+                serieJugada = ""
             },
             comprobarHabilitado = numeroJugado.isNotEmpty() && serieJugada.isNotEmpty()
         )
-
-        /*
-
-
-        Text("TITULO")
-        Text("Cupón ganador: 12345")
-        Text("Enhorabuena: Has ganado 50€")
-        Text("Comprueba tu Cupon")
-        Text("Numero: 12345")
-        Text("Serie: 11")
-        Text("Comprobar")
-        Text("Limpiar")
-             */
-
     }
 }
 
-// Nivel básico: Premio solo  coincidencia número. Con premio para 5 cifras o 5 cifras y serie
-// Nivel completo: Tabla de premios
-
+// Nivel básico: premio solo por coincidencia del número (5 cifras, o 5 cifras y serie)
+// Nivel completo: tabla de premios por terminaciones
 fun calcularPremio(
     numeroJugado: String,
     serieJugada: String,
     numeroGanador: String,
     serieGanador: String
-): Int {
-
-    when {
-        numeroJugado == numeroGanador &&
-                serieJugada == serieGanador -> return 500_000
-        numeroJugado == numeroGanador -> return 35_000
-        numeroJugado.takeLast(4) == numeroGanador.takeLast(4) -> return 250
-        numeroJugado.takeLast(3) == numeroGanador.takeLast(3) -> return 25
-        numeroJugado.takeLast(2) == numeroGanador.takeLast(2) -> return 6
-        numeroJugado.takeLast(1) == numeroGanador.takeLast(1) -> return 2
-        else -> return 0
-    }
+): Int = when {
+    numeroJugado == numeroGanador && serieJugada == serieGanador -> 500_000
+    numeroJugado == numeroGanador -> 35_000
+    numeroJugado.takeLast(4) == numeroGanador.takeLast(4) -> 250
+    numeroJugado.takeLast(3) == numeroGanador.takeLast(3) -> 25
+    numeroJugado.takeLast(2) == numeroGanador.takeLast(2) -> 6
+    numeroJugado.takeLast(1) == numeroGanador.takeLast(1) -> 2
+    else -> 0
 }
 
-fun formatNumero(numero: String): String {
-    return numero.padStart(5, '0')
-}
+fun formatNumero(numero: String): String = numero.padStart(5, '0')
 
-fun formatSerie(serie: String): String {
-    return serie.padStart(2, '0')
-}
-
-
-
-
+fun formatSerie(serie: String): String = serie.padStart(2, '0')
 
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MiLoteroKotlinTheme() {
-        MainScreen(
-            modifier = Modifier.fillMaxSize()
-        )
+    MiLoteroKotlinTheme {
+        MainScreen(modifier = Modifier.fillMaxSize())
     }
 }
-

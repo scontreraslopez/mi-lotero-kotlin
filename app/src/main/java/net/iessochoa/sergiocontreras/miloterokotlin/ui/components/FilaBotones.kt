@@ -2,15 +2,17 @@ package net.iessochoa.sergiocontreras.miloterokotlin.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import net.iessochoa.sergiocontreras.miloterokotlin.R
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioPequeno
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 
 @Composable
 fun FilaBotones(
@@ -21,27 +23,28 @@ fun FilaBotones(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceAround
-    )
-    {
-        //Comprobar cupon
+        horizontalArrangement = Arrangement.spacedBy(EspacioPequeno, Alignment.CenterHorizontally)
+    ) {
         Button(
             onClick = onComprobarClick,
             enabled = comprobarHabilitado
         ) {
-            Text("Comprobar Cupon")
+            Text(stringResource(R.string.boton_comprobar))
         }
-        Spacer(modifier = Modifier.width(8.dp))
-        //Limpiar
-        Button(
-            onClick = onLimpiarClick
-        ) {
-            Text("Limpiar")
+        Button(onClick = onLimpiarClick) {
+            Text(stringResource(R.string.boton_limpiar))
         }
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun FilaBotonesPreview()  = FilaBotones({ }, { }, modifier = Modifier.fillMaxWidth(), )
+fun FilaBotonesPreview() {
+    MiLoteroKotlinTheme {
+        FilaBotones(
+            onComprobarClick = {},
+            onLimpiarClick = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}

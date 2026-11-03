@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">Mi Lotero Kotlin</string>
+
+    <!-- Pantalla principal -->
+    <string name="titulo_cupon_ganador">Cupón ganador</string>
+    <string name="instruccion_comprobar">Pulse para comprobar su premio</string>
+
+    <!-- Cupón ganador -->
+    <string name="serie_formato">Serie: %1$s</string>
+
+    <!-- Comprobar cupón -->
+    <string name="etiqueta_numero">Número</string>
+    <string name="etiqueta_serie">Serie</string>
+    <string name="contador_caracteres">%1$d / %2$d</string>
+
+    <!-- Botones -->
+    <string name="boton_comprobar">Comprobar cupón</string>
+    <string name="boton_limpiar">Limpiar</string>
+
+    <!-- Banner de premio -->
     <string name="mensaje_premio">¡Felicidades! Has ganado %1$d €. ¡Muchas gracias por jugar!</string>
+    <string name="mensaje_sin_premio">Vaya, esta vez no ha habido suerte. ¡Muchas gracias por jugar!</string>
+    <string name="descripcion_imagen_premio">Imagen premio</string>
+    <string name="descripcion_imagen_sin_premio">Imagen sin premio</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import net.iessochoa.sergiocontreras.miloterokotlin.R
+import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 
 @Composable
 fun BannerPremio(
@@ -20,21 +21,22 @@ fun BannerPremio(
 
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(
                 id = if (hayPremio) R.drawable.premio_dinero else R.drawable.sin_premio_monedero
             ),
-            contentDescription = if (hayPremio) "Imagen premio" else "Imagen sin premio",
+            contentDescription = stringResource(
+                if (hayPremio) R.string.descripcion_imagen_premio else R.string.descripcion_imagen_sin_premio
+            ),
             modifier = Modifier.weight(1f)
         )
-
         Text(
             text = if (hayPremio) {
                 stringResource(R.string.mensaje_premio, premio)
             } else {
-                "Vaya, esta vez no ha habido suerte. ¡Muchas gracias por jugar!"
+                stringResource(R.string.mensaje_sin_premio)
             },
             modifier = Modifier.weight(2f)
         )
@@ -43,8 +45,16 @@ fun BannerPremio(
 
 @Preview(showBackground = true)
 @Composable
-fun BannerPremioPreview() = BannerPremio(premio = 500_000)
+fun BannerPremioPreview() {
+    MiLoteroKotlinTheme {
+        BannerPremio(premio = 500_000)
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun BannerSinPremioPreview() = BannerPremio(premio = 0)
+fun BannerSinPremioPreview() {
+    MiLoteroKotlinTheme {
+        BannerPremio(premio = 0)
+    }
+}

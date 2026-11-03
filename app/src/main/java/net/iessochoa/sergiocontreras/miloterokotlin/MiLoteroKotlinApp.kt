@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.screens.MainScreen
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 
@@ -17,10 +18,15 @@ fun MiLoteroKotlinApp() {
     MiLoteroKotlinTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = { CenterAlignedTopAppBar(title = { Text("Mi Lotero Kotlin") }) }
+            topBar = {
+                CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name)) })
+            }
         ) { innerPadding ->
-            MainScreen(modifier = Modifier.fillMaxSize()
-                .padding(innerPadding))
+            MainScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            )
         }
     }
 }
