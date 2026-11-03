@@ -2,7 +2,7 @@
 
 Parcial 1 de la asignatura **Programación de Móviles** (PMDM) del curso 2026-2027.
 Grupo 2K.
-Módelo B
+Modelo B
 
 ## Descripción de la app
 Estás desarrollando una app de lotería para el instituto. El jugador escribe el número y la serie de su cupón, pulsa **Comprobar cupón** y la app le enseña el cupón premiado del sorteo y le dice si le ha tocado algo y cuánto. Toda la app es **una sola pantalla**.
@@ -52,7 +52,7 @@ La nota se obtiene por **niveles de cumplimiento acumulativos**. Hay que **compl
 
 El cupón premiado del sorteo está en `SorteoRepository.cuponPremiado` (número `00256`, serie `01`).
 
-1. **TopAppBar**: barra superior con el título **"Mi Lotero Kotlin"** centrado.
+1. **TopAppBar**: barra superior con el título **"Mi Lotero Kotlin"** centrado y en negrita.
 2. **Título**: texto grande (`headlineLarge`) **"Cupón ganador"**.
 3. **Cupón ganador**: el número premiado con 5 cifras, grande y en negrita, y a su lado **"Serie: XX"** con la serie a 2 cifras.
    - Antes de comprobar (y después de pulsar Limpiar), en lugar del cupón ganador y del banner se ve el texto **"Pulse para comprobar su premio"**.
@@ -71,10 +71,8 @@ Todo el contenido tiene un **margen de 8 dp** respecto a los bordes de la pantal
 
 ### Tabla de premios
 
-Lo que escribe el jugador se compara con el cupón premiado rellenando con ceros a la izquierda (`256` equivale a `00256`, `1` a `01`).
-
-- **Básico y Avanzado**: solo hay un premio. Si coinciden **el número y la serie**, el premio es de **500000 €**. Si no coinciden los dos, no hay premio.
-- **Excelente**: se aplica la tabla completa. Se comprueba de **mayor a menor** premio y se da **solo el primero** que encaje:
+- **Básico y Avanzado**: solo hay un premio. Si coinciden **el número y la serie**, el premio es de **500000 €**. Si no coinciden los dos, no hay premio. Basta con una **comparación exacta** de textos: el jugador tiene que escribir `00256` y `01` tal cual.
+- **Excelente**: lo que escribe el jugador se rellena con ceros a la izquierda antes de comparar (`256` equivale a `00256`, `1` a `01`) y se aplica la tabla completa. Se comprueba de **mayor a menor** premio y se da **solo el primero** que encaje:
 
 | Aciertos (comparando con el cupón premiado) | Premio    |
 |---------------------------------------------|-----------|
@@ -100,7 +98,7 @@ Versión Excelente. El cupón premiado es el `00256`, serie `01`.
 | Cambia el número a `12341` y pulsa **Comprobar cupón** | 00256 Serie: 01 | Monedero vacío | Vaya, esta vez no ha habido suerte... (+ Toast) |
 | Pulsa **Limpiar** | *(oculto: "Pulse para comprobar su premio")* | — | — *(campos vacíos, + Toast)* |
 
-> En Avanzado, la segunda y la tercera comprobación darían **sin premio**, porque solo cuenta el acierto de número y serie.
+> En Básico y Avanzado todas estas comprobaciones darían **sin premio**: no se rellena con ceros (habría que escribir `00256` y `01` tal cual) y solo cuenta el acierto de número y serie.
 
 ### Capturas de referencia
 
@@ -114,7 +112,7 @@ Arriba tienes una captura de la app en funcionamiento, con un cupón ya comproba
 
 Si falta alguno, el nivel Básico **no se da por superado** y la nota máxima es **4**, aunque la app funcione en función de lo cerca que esté de la versión final.
 
-- [ ] **Componentes separados en `ui.components`**: como mínimo cuatro ficheros o composables independientes. Se te proporcionan vacíos. Si quieres puedes fusionar alguno pero al menos que hayan 3:
+- [ ] **Componentes separados en `ui.components`**: se te proporcionan cuatro ficheros vacíos, uno por componente. Puedes fusionar alguno, pero tiene que haber como mínimo tres:
   1. Cupón ganador (`CuponGanador`)
   2. Banner de premio (`BannerPremio`)
   3. Campos del cupón (`CuponComprobar`)
@@ -136,7 +134,7 @@ UI completa con todos los componentes y estado mínimo.
 | B3 | **Campos del cupón**: dos campos de texto con su etiqueta, "Número" y "Serie". | 1 |
 | B4 | **Botones** "Comprobar cupón" y "Limpiar" visibles. | 0,5 |
 | B5 | **Estado de los campos**: lo que escribe el jugador se queda escrito en cada campo (el estado vive en la pantalla). | 1 |
-| B6 | **Comprobación**: al pulsar "Comprobar cupón" se compara el número **y** la serie con el cupón premiado y se ve el resultado (basta con que quede claro si hay premio o no). | 1 |
+| B6 | **Comprobación**: al pulsar "Comprobar cupón" se compara el número **y** la serie con el cupón premiado y se ve el resultado (basta con que quede claro si hay premio o no). Vale una comparación exacta de textos, sin rellenar con ceros. | 1 |
 |   | **Total** | **5** |
 
 ---
@@ -163,7 +161,7 @@ Solo cuenta si el Básico y el Avanzado están completos.
 |---|----------|--------|
 | E1 | **Resultado oculto hasta comprobar**: antes de pulsar "Comprobar cupón" no se ven ni el cupón ganador ni el banner; en su lugar aparece "Pulse para comprobar su premio". | 0,5 |
 | E2 | **Formulario controlado**: "Limpiar" deja la pantalla como al principio (campos vacíos y resultado oculto, además del Toast), y "Comprobar cupón" está deshabilitado mientras falte el número o la serie. | 0,5 |
-| E3 | **Tabla de premios completa**: se comprueba de mayor a menor premio (número y serie, 5 cifras, 4, 3, 2 y última cifra) y se da solo el primero que encaje. | 1 |
+| E3 | **Tabla de premios completa**: lo escrito se rellena con ceros a la izquierda (`256` -> `00256`, `1` -> `01`) y se comprueba de mayor a menor premio (número y serie, 5 cifras, 4, 3, 2 y última cifra) y se da solo el primero que encaje. | 1 |
 |    | **Total** | **2** |
 
 ---
