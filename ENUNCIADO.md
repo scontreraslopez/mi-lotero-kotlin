@@ -1,11 +1,11 @@
 # Mi Lotero Kotlin
 
-Parcial 1 de la asignatura **Programación de Móviles** (PMDM) del curso `<rellenar>`.
-Grupo `<rellenar>`.
-Modelo `<rellenar>`
+Parcial 1 de la asignatura **Programación de Móviles** (PMDM) del curso 2026-2027.
+Grupo 2K.
+Módelo B
 
 ## Descripción de la app
-Eres el lotero del barrio. El jugador escribe el número y la serie de su cupón, pulsa **Comprobar cupón** y la app le enseña el cupón premiado del sorteo y le dice si le ha tocado algo y cuánto. Toda la app es **una sola pantalla**.
+Estás desarrollando una app de lotería para el instituto. El jugador escribe el número y la serie de su cupón, pulsa **Comprobar cupón** y la app le enseña el cupón premiado del sorteo y le dice si le ha tocado algo y cuánto. Toda la app es **una sola pantalla**.
 
 ## Rúbrica de evaluación — Mi Lotero Kotlin
 
@@ -46,7 +46,7 @@ La nota se obtiene por **niveles de cumplimiento acumulativos**. Hay que **compl
 ```
 
 
-![alt text](image.png)
+![Flujo de Mi Lotero Kotlin en cuatro pantallas: formulario vacío con "Comprobar cupón" deshabilitado; tras comprobar el número 00256 serie 1, banner con "¡Felicidades! Has ganado 500000 €" y el botón Limpiar resaltado; formulario vaciado con el aviso "Formulario limpiado"; y comprobación del número 12256 serie 1 con premio de 25 €](lotero-comprobar-y-limpiar.png)
 
 ### Zonas
 
