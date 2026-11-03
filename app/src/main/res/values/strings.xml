@@ -17,6 +17,10 @@
     <string name="boton_comprobar">Comprobar cupón</string>
     <string name="boton_limpiar">Limpiar</string>
 
+    <!-- Toasts -->
+    <string name="toast_comprobar">Cupón comprobado</string>
+    <string name="toast_limpiar">Formulario limpiado</string>
+
     <!-- Banner de premio -->
     <string name="mensaje_premio">¡Felicidades! Has ganado %1$d €. ¡Muchas gracias por jugar!</string>
     <string name="mensaje_sin_premio">Vaya, esta vez no ha habido suerte. ¡Muchas gracias por jugar!</string>

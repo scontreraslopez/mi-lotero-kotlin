@@ -1,5 +1,6 @@
 package net.iessochoa.sergiocontreras.miloterokotlin.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import net.iessochoa.sergiocontreras.miloterokotlin.R
@@ -42,6 +44,11 @@ fun MainScreen(
     var numeroJugado by remember { mutableStateOf("") }
     var serieJugada by remember { mutableStateOf("") }
     var premio by remember { mutableIntStateOf(0) }
+
+    // Contexto y textos de los Toast: se leen aquí porque stringResource no se puede llamar en un onClick
+    val context = LocalContext.current
+    val mensajeComprobar = stringResource(R.string.toast_comprobar)
+    val mensajeLimpiar = stringResource(R.string.toast_limpiar)
 
     Column(
         modifier = modifier.padding(EspacioPequeno),
@@ -81,12 +88,14 @@ fun MainScreen(
                     numeroGanador = numeroGanador,
                     serieGanador = serieGanador
                 )
+                Toast.makeText(context, mensajeComprobar, Toast.LENGTH_SHORT).show()
             },
             onLimpiarClick = {
                 premioRevelado = false
                 premio = 0
                 numeroJugado = ""
                 serieJugada = ""
+                Toast.makeText(context, mensajeLimpiar, Toast.LENGTH_SHORT).show()
             },
             comprobarHabilitado = numeroJugado.isNotEmpty() && serieJugada.isNotEmpty()
         )
