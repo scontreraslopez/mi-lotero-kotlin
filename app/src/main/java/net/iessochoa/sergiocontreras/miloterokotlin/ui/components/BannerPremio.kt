@@ -50,8 +50,8 @@ package net.iessochoa.sergiocontreras.miloterokotlin.ui.components
  *
  *  - `Image` necesita un `contentDescription` para la accesibilidad. También
  *    están en `strings.xml` (`descripcion_imagen_premio`, `descripcion_imagen_sin_premio`).
- *  - Para repartir el ancho dentro del `Row`: `Modifier.weight(1f)` en la imagen
- *    y `Modifier.weight(2f)` en el texto.
+ *  - Para repartir el ancho dentro del `Row`: `33%` en la imagen
+ *    y 66% para el texto.
  *  - Acepta un `modifier: Modifier = Modifier` y añade dos `@Preview`: una
  *    con premio y otra sin premio.
  */
