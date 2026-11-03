@@ -1,132 +1,92 @@
 package net.iessochoa.sergiocontreras.miloterokotlin.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import net.iessochoa.sergiocontreras.miloterokotlin.R
-import net.iessochoa.sergiocontreras.miloterokotlin.data.SorteoRepository
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.BannerPremio
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponComprobar
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.CuponGanador
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.components.FilaBotones
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.AlturaHuecoPremio
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioMedio
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioPequeno
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 
+/*
+ * ============================================================================
+ *  MainScreen: la pantalla de comprobación del cupón
+ * ============================================================================
+ *
+ *  QUÉ SE PIDE
+ *  -----------
+ *  Esta pantalla monta los componentes de `ui.components` y es la ÚNICA que
+ *  guarda el estado. Los componentes solo pintan y avisan.
+ *
+ *  Orden de arriba abajo:
+ *
+ *      Título "Cupón ganador"   (un Text con `MaterialTheme.typography.headlineLarge`)
+ *      CuponGanador
+ *      BannerPremio
+ *      CuponComprobar
+ *      FilaBotones
+ *
+ *  En Excelente, hasta que se pulse "Comprobar cupón", en lugar de
+ *  CuponGanador y BannerPremio se ve el texto "Pulse para comprobar su premio".
+ *
+ *  Pon `Spacer`s entre los elementos para que la pantalla respire, p. ej.
+ *  `Spacer(modifier = Modifier.height(16.dp))`. Juega con las alturas hasta
+ *  que quede bien.
+ *
+ *  SUGERENCIA DE PASOS
+ *  -------------------
+ *  1. Datos: pide el cupón premiado a `SorteoRepository`.          → Básico
+ *
+ *  2. Estado:
+ *       - el texto del número y el de la serie que escribe el jugador → Básico
+ *       - el resultado de la última comprobación (p. ej. el premio
+ *         en euros, `mutableIntStateOf(0)`)                         → Básico
+ *       - si ya se ha pulsado "Comprobar cupón" (`Boolean`)         → Excelente
+ *
+ *  3. Lambdas de los campos: cuando `CuponComprobar` avise de un texto
+ *     nuevo, guárdalo en el estado.                                   → Básico
+ *
+ *  4. Botón "Comprobar cupón": compara lo escrito con el cupón premiado y
+ *     guarda el resultado en el estado.
+ *       - Básico / Avanzado: número Y serie coinciden → 500000 €; si no, 0.
+ *       - Avanzado: además, Toast "Cupón comprobado".
+ *       - Excelente: tabla de premios completa (la tienes en el KDoc de
+ *         `SorteoRepository`) y marcar que ya se ha comprobado.
+ *     Ojo: el resultado se calcula al PULSAR, no en cada recomposición. Si lo
+ *     calculas suelto en el cuerpo de la función, cambiaría mientras escribes.
+ *     Por eso se guarda en el estado.
+ *
+ *  5. Botón "Limpiar":
+ *       - Avanzado: Toast "Formulario limpiado".
+ *       - Excelente: vaciar los campos y volver a ocultar el resultado.
+ *
+ *  6. Datos derivados, calculados a partir del estado en cada recomposición
+ *     (no hace falta guardarlos en otro `remember`):
+ *       - ¿se puede comprobar? (número y serie no vacíos, `isNotEmpty()`)
+ *                                                                     → Excelente
+ *
+ *  PISTAS PARA LOS TOAST
+ *  ---------------------
+ *  - El `Context` se obtiene con `val context = LocalContext.current`.
+ *  - `stringResource(...)` es `@Composable`: NO se puede llamar dentro de un
+ *    `onClick`. Lee el texto ANTES, fuera de la lambda, y guárdalo en una `val`.
+ *  - `Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()`
+ */
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier
 ) {
-    val cuponGanador = SorteoRepository.cuponPremiado
-    val numeroGanador = cuponGanador.numeroFormateado
-    val serieGanador = cuponGanador.serieFormateada
-
-    var premioRevelado by remember { mutableStateOf(false) }
-    var numeroJugado by remember { mutableStateOf("") }
-    var serieJugada by remember { mutableStateOf("") }
-    var premio by remember { mutableIntStateOf(0) }
-
-    // Contexto y textos de los Toast: se leen aquí porque stringResource no se puede llamar en un onClick
-    val context = LocalContext.current
-    val mensajeComprobar = stringResource(R.string.toast_comprobar)
-    val mensajeLimpiar = stringResource(R.string.toast_limpiar)
-
     Column(
-        modifier = modifier.padding(EspacioPequeno),
-        verticalArrangement = Arrangement.spacedBy(EspacioMedio, Alignment.CenterVertically),
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.titulo_cupon_ganador),
-            style = MaterialTheme.typography.headlineLarge
-        )
-
-        if (premioRevelado) {
-            CuponGanador(
-                numero = numeroGanador,
-                serie = serieGanador
-            )
-            BannerPremio(premio = premio)
-        } else {
-            Text(stringResource(R.string.instruccion_comprobar))
-            Spacer(modifier = Modifier.height(AlturaHuecoPremio))
-        }
-
-        CuponComprobar(
-            numero = numeroJugado,
-            serie = serieJugada,
-            onNumeroChange = { numeroJugado = it },
-            onSerieChange = { serieJugada = it },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        FilaBotones(
-            onComprobarClick = {
-                premioRevelado = true
-                premio = calcularPremio(
-                    numeroJugado = formatNumero(numeroJugado),
-                    serieJugada = formatSerie(serieJugada),
-                    numeroGanador = numeroGanador,
-                    serieGanador = serieGanador
-                )
-                Toast.makeText(context, mensajeComprobar, Toast.LENGTH_SHORT).show()
-            },
-            onLimpiarClick = {
-                premioRevelado = false
-                premio = 0
-                numeroJugado = ""
-                serieJugada = ""
-                Toast.makeText(context, mensajeLimpiar, Toast.LENGTH_SHORT).show()
-            },
-            comprobarHabilitado = numeroJugado.isNotEmpty() && serieJugada.isNotEmpty()
-        )
+        // TODO: monta aquí la pantalla
     }
 }
-
-// Nivel básico: premio solo por coincidencia del número (5 cifras, o 5 cifras y serie)
-// Nivel completo: tabla de premios por terminaciones
-fun calcularPremio(
-    numeroJugado: String,
-    serieJugada: String,
-    numeroGanador: String,
-    serieGanador: String
-): Int = when {
-    numeroJugado == numeroGanador && serieJugada == serieGanador -> 500_000
-    numeroJugado == numeroGanador -> 35_000
-    numeroJugado.takeLast(4) == numeroGanador.takeLast(4) -> 250
-    numeroJugado.takeLast(3) == numeroGanador.takeLast(3) -> 25
-    numeroJugado.takeLast(2) == numeroGanador.takeLast(2) -> 6
-    numeroJugado.takeLast(1) == numeroGanador.takeLast(1) -> 2
-    else -> 0
-}
-
-fun formatNumero(numero: String): String = numero.padStart(5, '0')
-
-fun formatSerie(serie: String): String = serie.padStart(2, '0')
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreenPreview() {
-    MiLoteroKotlinTheme {
-        MainScreen(modifier = Modifier.fillMaxSize())
-    }
-}
+fun MainScreenPreview() = MainScreen(
+    modifier = Modifier.fillMaxSize()
+)

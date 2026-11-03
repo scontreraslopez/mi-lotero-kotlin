@@ -1,4 +1,10 @@
 <resources>
+    <!--
+        Textos de la app ya preparados para que los uses con stringResource(R.string.xxx).
+        Los que tienen huecos (%1$d, %1$s...) se rellenan así: stringResource(R.string.xxx, valor).
+        Eres libre de cambiarlos o de añadir los tuyos si prefieres enfocarlo de otra manera:
+        lo que se evalúa es que los textos estén aquí y no escritos a mano en el código.
+    -->
     <string name="app_name">Mi Lotero Kotlin</string>
 
     <!-- Pantalla principal -->

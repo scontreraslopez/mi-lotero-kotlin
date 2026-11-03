@@ -1,80 +1,53 @@
 package net.iessochoa.sergiocontreras.miloterokotlin.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import net.iessochoa.sergiocontreras.miloterokotlin.R
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioPequeno
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
-
-private const val MAX_CARACTERES_NUMERO = 5
-private const val MAX_CARACTERES_SERIE = 2 // Cupón diario: serie del 1 al 50
-
-@Composable
-fun CuponComprobar(
-    numero: String,
-    serie: String,
-    onNumeroChange: (String) -> Unit,
-    onSerieChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(EspacioPequeno),
-        modifier = modifier
-    ) {
-        OutlinedTextField(
-            value = numero,
-            label = { Text(stringResource(R.string.etiqueta_numero)) },
-            onValueChange = { nuevo ->
-                if (nuevo.length <= MAX_CARACTERES_NUMERO && nuevo.all { it.isDigit() }) {
-                    onNumeroChange(nuevo)
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true,
-            supportingText = {
-                Text(stringResource(R.string.contador_caracteres, numero.length, MAX_CARACTERES_NUMERO))
-            },
-            modifier = Modifier.weight(3f)
-        )
-        OutlinedTextField(
-            value = serie,
-            label = { Text(stringResource(R.string.etiqueta_serie)) },
-            onValueChange = { nuevo ->
-                if (nuevo.length <= MAX_CARACTERES_SERIE && nuevo.all { it.isDigit() }) {
-                    onSerieChange(nuevo)
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true,
-            supportingText = {
-                Text(stringResource(R.string.contador_caracteres, serie.length, MAX_CARACTERES_SERIE))
-            },
-            modifier = Modifier.weight(2f)
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CuponComprobarPreview() {
-    MiLoteroKotlinTheme {
-        CuponComprobar(
-            numero = "12345",
-            serie = "10",
-            onNumeroChange = {},
-            onSerieChange = {},
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
+/*
+ * ============================================================================
+ *  CuponComprobar: los campos donde el jugador escribe su cupón
+ * ============================================================================
+ *
+ *  QUÉ SE PIDE
+ *  -----------
+ *  Un composable con dos campos de texto en la misma fila: el número (más
+ *  ancho) y la serie (más estrecho). Cada uno con su etiqueta y, debajo, un
+ *  contador de caracteres:
+ *
+ *      ┌ Número ─────────────┐  ┌ Serie ───────┐
+ *      │ 256                 │  │ 1            │
+ *      └─────────────────────┘  └──────────────┘
+ *        3 / 5                    1 / 2
+ *
+ *  NIVELES
+ *  -------
+ *  - Básico: los dos campos se ven con su etiqueta ("Número" y "Serie") y lo
+ *    que escribe el jugador se queda escrito.
+ *  - Avanzado: los campos se validan:
+ *      · solo admiten dígitos,
+ *      · el número tiene como máximo 5 caracteres y la serie 2,
+ *      · al pulsarlos sale el teclado numérico,
+ *      · debajo de cada uno se ve el contador "n / máx" (p. ej. "3 / 5").
+ *
+ *  PISTAS
+ *  ------
+ *  - Usa `OutlinedTextField` (parámetros `value`, `onValueChange`, `label`).
+ *  - Este componente NO guarda el texto (nada de `remember` aquí dentro).
+ *    Recibe por parámetro:
+ *      · el texto actual del número y de la serie,
+ *      · una lambda para cada campo con la que avisar del texto nuevo
+ *        (p. ej. `onNumeroChange: (String) -> Unit`).
+ *    El estado vive en la pantalla (MainScreen).
+ *  - Validar = decidir en `onValueChange` si aceptas el texto nuevo ANTES de
+ *    avisar hacia arriba. Si no lo aceptas, simplemente no llames a la lambda.
+ *    Te pueden servir `length` y `all { it.isDigit() }`.
+ *  - Teclado numérico:
+ *
+ *        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+ *
+ *    y `singleLine = true` para que no crezca hacia abajo.
+ *  - El contador va en el parámetro `supportingText = { ... }`. El texto ya está
+ *    en `strings.xml` con dos huecos (`%1$d / %2$d`). Los máximos (5 y 2) son
+ *    buenos candidatos a constante para no repetirlos.
+ *  - Para repartir el ancho dentro del `Row`: `Modifier.weight(...)` en cada campo.
+ *  - Las etiquetas ya están en `strings.xml` (`etiqueta_numero`, `etiqueta_serie`).
+ *  - Acepta un `modifier: Modifier = Modifier` y añade una `@Preview` con
+ *    textos de ejemplo y lambdas vacías `{ }`.
+ */

@@ -1,50 +1,43 @@
 package net.iessochoa.sergiocontreras.miloterokotlin.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import net.iessochoa.sergiocontreras.miloterokotlin.R
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.EspacioPequeno
-import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
-
-@Composable
-fun FilaBotones(
-    onComprobarClick: () -> Unit,
-    onLimpiarClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    comprobarHabilitado: Boolean = true
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(EspacioPequeno, Alignment.CenterHorizontally)
-    ) {
-        Button(
-            onClick = onComprobarClick,
-            enabled = comprobarHabilitado
-        ) {
-            Text(stringResource(R.string.boton_comprobar))
-        }
-        Button(onClick = onLimpiarClick) {
-            Text(stringResource(R.string.boton_limpiar))
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun FilaBotonesPreview() {
-    MiLoteroKotlinTheme {
-        FilaBotones(
-            onComprobarClick = {},
-            onLimpiarClick = {},
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
+/*
+ * ============================================================================
+ *  FilaBotones: botones para comprobar el cupón y limpiar el formulario
+ * ============================================================================
+ *
+ *  QUÉ SE PIDE
+ *  -----------
+ *  Un composable con dos botones en la misma fila, centrados y con una
+ *  pequeña separación entre ellos:
+ *
+ *      ┌───────────────────┐  ┌─────────┐
+ *      │  Comprobar cupón  │  │ Limpiar │
+ *      └───────────────────┘  └─────────┘
+ *
+ *  NIVELES
+ *  -------
+ *  - Básico: los dos botones se ven con sus textos. "Comprobar cupón" comprueba
+ *    el cupón (eso lo hace la pantalla).
+ *  - Avanzado: cada botón muestra su Toast.
+ *      · Comprobar cupón → "Cupón comprobado"
+ *      · Limpiar         → "Formulario limpiado"
+ *  - Excelente:
+ *      · "Limpiar" deja la pantalla como al principio (campos vacíos y sin
+ *        resultado).
+ *      · "Comprobar cupón" está deshabilitado mientras falte el número o la
+ *        serie.
+ *
+ *  PISTAS
+ *  ------
+ *  - Este componente NO sabe qué pasa al pulsar: recibe una lambda por cada
+ *    botón (p. ej. `onComprobarClick: () -> Unit`) y la llama en el `onClick`.
+ *    El Toast y la limpieza se hacen en la pantalla (MainScreen), que es
+ *    quien tiene el estado y el `Context`.
+ *  - Para deshabilitar un botón, `Button` tiene el parámetro `enabled`. Este
+ *    componente no decide si está habilitado: lo recibe por parámetro
+ *    (p. ej. `comprobarHabilitado: Boolean`).
+ *  - Los textos de los botones van en `strings.xml` y se leen con
+ *    `stringResource(...)`.
+ *  - Acepta un `modifier: Modifier = Modifier` y añade una `@Preview` con
+ *    lambdas vacías `{ }`.
+ */
