@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.screens.MainScreen
 import net.iessochoa.sergiocontreras.miloterokotlin.ui.theme.MiLoteroKotlinTheme
 
@@ -19,7 +20,14 @@ fun MiLoteroKotlinApp() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name)) })
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                )
             }
         ) { innerPadding ->
             MainScreen(
